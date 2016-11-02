@@ -15,6 +15,7 @@ namespace Faunus {
         eps = j[sec]["epsilon"] | 0.2;
       }
       template<class Tparticle>
+        // overloaded function call
         double operator() (const Tparticle &a, const Tparticle &b, double r2) {
           if (r2>a2) return 0;
           if (r2<a1) return pc::infty;
@@ -33,8 +34,13 @@ int main() {
 
   Move::Propagator<Tspace> mv(in,pot,spc);// particle move class
 
-  for (int i=0; i<1e3; i++)
+  int moves = 1000;
+  for (int i=0; i<moves; i++) {
     mv.move();
+    if ((i+1) % (moves / 100) == 0) {
+      cout << printf("%d %% done", (i + 1) * 100 / moves);
+    }
+  }
 
   spc.save("state");                      // save final state
   FormatPQR::save("stripes.pqr", spc.p);  // save PQR file for i.e. VMD
