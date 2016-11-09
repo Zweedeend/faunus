@@ -1,0 +1,345 @@
+{
+    "moleculelist": {
+        "protein": {
+            "structure": "manybody.bpti",
+            "Ninit": 20
+        }
+    },
+    "moves": {
+        "moltransrot": {
+            "protein": {
+                "dprot": 6,
+                "permol": true,
+                "dp": 60,
+                "prob": 1.0
+            }
+        },
+        "titrate": {
+            "processfile": "manybody.json",
+            "prob": 0.2
+        }
+    },
+    "processes": {
+        "H-Asp": {
+            "pKd": 4.0,
+            "pX": 4.1,
+            "free": "ASP",
+            "bound": "HASP"
+        },
+        "K2": {
+            "pKd": 7.21,
+            "pX": 4.1,
+            "free": "HPO4",
+            "bound": "H2PO4"
+        },
+        "H-His": {
+            "pKd": 6.3,
+            "pX": 4.1,
+            "free": "HIS",
+            "bound": "HHIS"
+        },
+        "H-Tyr": {
+            "pKd": 9.6,
+            "pX": 4.1,
+            "free": "TYR",
+            "bound": "HTYR"
+        },
+        "H-Cys": {
+            "pKd": 10.8,
+            "pX": 4.1,
+            "free": "CYS",
+            "bound": "HCYS"
+        },
+        "H-Glu": {
+            "pKd": 4.4,
+            "pX": 4.1,
+            "free": "GLU",
+            "bound": "HGLU"
+        },
+        "H-Ctr": {
+            "pKd": 2.6,
+            "pX": 4.1,
+            "free": "CTR",
+            "bound": "HCTR"
+        },
+        "K1": {
+            "pKd": 2.12,
+            "pX": 4.1,
+            "free": "H2PO4",
+            "bound": "H3PO4"
+        },
+        "H-Arg": {
+            "pKd": 12.0,
+            "pX": 4.1,
+            "free": "ARG",
+            "bound": "HARG"
+        },
+        "H-Ntr": {
+            "pKd": 7.5,
+            "pX": 4.1,
+            "free": "NTR",
+            "bound": "HNTR"
+        },
+        "K3": {
+            "pKd": 12.67,
+            "pX": 4.1,
+            "free": "PO4",
+            "bound": "HPO4"
+        },
+        "H-Lys": {
+            "pKd": 10.4,
+            "pX": 4.1,
+            "free": "LYS",
+            "bound": "HLYS"
+        }
+    },
+    "system": {
+        "cuboid": {
+            "len": 202.49287709956025
+        },
+        "unittest": {
+            "stable": false,
+            "testfile": "manybody.test"
+        },
+        "temperature": 298.15,
+        "mcloop": {
+            "micro": 100,
+            "macro": 10
+        }
+    },
+    "energy": {
+        "nonbonded": {
+            "ljsimple": {
+                "eps": 0.05,
+                "cutoff": 49.46014438265361
+            },
+            "coulomb": {
+                "epsr": 78.7,
+                "ionicstrength": 0.034,
+                "cutoff": 49.46014438265361
+            },
+            "cutoff_g2g": 89.46014438265361
+        },
+        "hydrophobicsasa": {}
+    },
+    "analysis": {
+        "scatter": {
+            "dq": 0.005,
+            "qmin": 0.05,
+            "cutoff": 10000000000.0,
+            "qmax": 0.4
+        }
+    },
+    "atomlist": {
+        "ASN": {
+            "r": 3.6,
+            "mw": 108,
+            "q": 0
+        },
+        "H2PO4": {
+            "r": 2.0,
+            "q": -1
+        },
+        "THR": {
+            "r": 3.5,
+            "mw": 94,
+            "q": 0
+        },
+        "HARG": {
+            "r": 4.0,
+            "mw": 144,
+            "q": 1
+        },
+        "SER": {
+            "r": 3.3,
+            "mw": 82,
+            "q": 0
+        },
+        "HGLU": {
+            "r": 3.8,
+            "mw": 122,
+            "q": 0
+        },
+        "H3PO4": {
+            "r": 2.0,
+            "q": 0
+        },
+        "BPTI": {
+            "r": 12.29,
+            "q": 7.3
+        },
+        "HHIS": {
+            "r": 3.9,
+            "mw": 130,
+            "q": 1
+        },
+        "LGLU": {
+            "r": 3.8,
+            "mw": 122,
+            "q": 2
+        },
+        "HTYR": {
+            "r": 4.1,
+            "mw": 154,
+            "q": 0
+        },
+        "GLY": {
+            "r": 2.9,
+            "mw": 54,
+            "q": 0
+        },
+        "TRP": {
+            "r": 4.3,
+            "mw": 176,
+            "q": 0
+        },
+        "ALA": {
+            "r": 3.1,
+            "mw": 66,
+            "q": 0
+        },
+        "SCN": {
+            "r": 2.0,
+            "mw": 1,
+            "q": -1
+        },
+        "PRO": {
+            "r": 3.4,
+            "mw": 90,
+            "q": 0
+        },
+        "ARG": {
+            "r": 4.0,
+            "mw": 144,
+            "q": 0
+        },
+        "CYb": {
+            "r": 3.6,
+            "mw": 103,
+            "q": 0
+        },
+        "Cl": {
+            "r": 1.7,
+            "mw": 35.45,
+            "q": -1
+        },
+        "GLN": {
+            "r": 3.8,
+            "mw": 120,
+            "q": 0
+        },
+        "VAL": {
+            "r": 3.4,
+            "mw": 90,
+            "q": 0
+        },
+        "CTR": {
+            "r": 2.0,
+            "mw": 16,
+            "q": -1
+        },
+        "HCTR": {
+            "r": 2.0,
+            "mw": 16,
+            "q": 0
+        },
+        "LYS": {
+            "r": 3.7,
+            "mw": 116,
+            "q": 0
+        },
+        "LASP": {
+            "r": 3.6,
+            "mw": 110,
+            "q": 2
+        },
+        "HIS": {
+            "r": 3.9,
+            "mw": 130,
+            "q": 0
+        },
+        "HNTR": {
+            "r": 2.0,
+            "mw": 14,
+            "q": 1
+        },
+        "GLU": {
+            "r": 3.8,
+            "mw": 122,
+            "q": -1
+        },
+        "TYR": {
+            "r": 4.1,
+            "mw": 154,
+            "q": -1
+        },
+        "MET": {
+            "r": 3.8,
+            "mw": 122,
+            "q": 0
+        },
+        "LEU": {
+            "r": 3.6,
+            "mw": 102,
+            "q": 0
+        },
+        "ASP": {
+            "r": 3.6,
+            "mw": 110,
+            "q": -1
+        },
+        "Na": {
+            "r": 1.9,
+            "mw": 22.99,
+            "q": 1
+        },
+        "HASP": {
+            "r": 3.6,
+            "mw": 110,
+            "q": 0
+        },
+        "NTR": {
+            "r": 2.0,
+            "mw": 14,
+            "q": 0
+        },
+        "I": {
+            "r": 2.0,
+            "mw": 1,
+            "q": -1
+        },
+        "PO4": {
+            "r": 2.0,
+            "q": -3
+        },
+        "CYS": {
+            "r": 3.6,
+            "mw": 103,
+            "q": -1
+        },
+        "PHE": {
+            "r": 3.9,
+            "mw": 138,
+            "q": 0
+        },
+        "HLYS": {
+            "r": 3.7,
+            "mw": 116,
+            "q": 1
+        },
+        "ILE": {
+            "r": 3.6,
+            "mw": 102,
+            "q": 0
+        },
+        "HPO4": {
+            "r": 2.0,
+            "q": -2
+        },
+        "HCYS": {
+            "r": 3.6,
+            "mw": 103,
+            "q": 0
+        }
+    }
+}
