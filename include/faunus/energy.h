@@ -411,7 +411,7 @@ namespace Faunus {
             double u=0;
             for (auto &i : p1)
               for (auto &j : p2)
-                u+=p2p(i,j);
+                u+=p2p(i,j);  // from energy base class
             return u;
           }
       };

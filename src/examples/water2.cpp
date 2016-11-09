@@ -5,11 +5,8 @@ using namespace Faunus;
 using namespace Faunus::Potential;
 
 typedef Space<Geometry::Cuboid> Tspace;
-#ifdef EWALD
-typedef LennardJonesLB Tpairpot;
-#else
-typedef CombinedPairPotential<CoulombWolf,LennardJonesLB> Tpairpot;
-#endif
+
+typedef HardSphere Tpairpot;
 
 int main() {
 
@@ -17,20 +14,15 @@ int main() {
   InputMap mcp("water2.json");   // read input file
   Tspace spc(mcp);
 
-  // Energy functions and space
-#ifdef EWALD
-  auto pot = Energy::NonbondedEwald<Tspace,Tpairpot>(mcp)
-    + Energy::ExternalPressure<Tspace>(mcp);
-#else
-  auto pot = Energy::NonbondedCutg2g<Tspace,Tpairpot>(mcp)
-    + Energy::ExternalPressure<Tspace>(mcp);
-#endif
+
+  auto pot = Energy::Nonbonded<Tspace,Tpairpot>(mcp);
 
   spc.load("state"); // load old config. from disk (if any)
   auto waters = spc.findMolecules("water");
 
   // Markov moves and analysis
   Move::Propagator<Tspace> mv( mcp, pot, spc );
+  Analysis::CombinedAnalysis analyzer(mcp,pot,spc);
   Analysis::RadialDistribution<> rdf(0.05);
   FormatXTC xtc(1000);
 
@@ -44,6 +36,7 @@ int main() {
     while ( loop[1] ) {
 
       sys+=mv.move();
+      analyzer.sample();
 
       double rnd = slump();
       if ( rnd>0.9 ) {
@@ -67,14 +60,9 @@ int main() {
   spc.save("state");
 
   // perform unit 
-  UnitTest test(mcp);
-  sys.test(test);
-  mv.test(test);
 
   // print information
-  cout << loop.info() + sys.info() + mv.info() + test.info();
-
-  return test.numFailed();
+  cout << loop.info() + sys.info() + mv.info() + analyzer.info();
 }
 
 /**  @page example_water2 Example: SPC Water (V2)

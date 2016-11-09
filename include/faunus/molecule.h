@@ -24,9 +24,9 @@ namespace Faunus {
     struct RandomInserter {
       typedef typename TMoleculeData::TParticleVector Tpvec;
       string name;
-      Point dir;         //!< Scalars for random mass center position. Default (1,1,1)
+      Point dir;         //!< Scalars for random mass center position. Default (1,1,1)  // todo: change this to (1, 1, 0)
       Point offset;      //!< Added to random position. Default (0,0,0)
-      bool checkOverlap; //!< Set to true to enable container overlap check
+      bool checkOverlap; //!< Set to true to enable container overlap check  // todo: set this to false
       bool rotate;       //!< Set to true to randomly rotate molecule when inserted. Default: true
       bool keeppos;      //!< Set to true to keep original positions (default: false)
       int maxtrials;     //!< Maximum number of overlap checks if `checkOverlap==true`
@@ -202,7 +202,7 @@ namespace Faunus {
         void setInserter( const TinserterFunc &ifunc ) { inserterFunctor = ifunc; };
 
         /** @brief Get a random conformation */
-        Tpvec getRandomConformation() {
+        Tpvec getRandomConformation() {  // todo: use this function to get a molecule
           if ( conformations.empty() )
             throw std::runtime_error("No configurations for molecule '" + name +
                 "'. Perhaps you forgot to specity the 'atomic' keyword?");
@@ -222,7 +222,7 @@ namespace Faunus {
          * no container overlap using the `RandomInserter` class. This behavior can
          * be changed by specifying another inserter using `setInserter()`.
          */
-        Tpvec getRandomConformation(
+        Tpvec getRandomConformation( // returns a vector of position of a particle that is placed randomly in a box
             Geometry::Geometrybase &geo,
             const Tpvec &otherparticles=Tpvec() )
         {

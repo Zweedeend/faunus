@@ -170,6 +170,7 @@ namespace Faunus {
             qmin = m["qmin"] | -1.0;
             qmax = m["qmax"] | -1.0;
             rc   = m["cutoff"] |1.0e9;
+            rc = m.value("cutoff", 1.0e9);
           }
 
           /**
