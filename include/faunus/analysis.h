@@ -2166,17 +2166,15 @@ namespace Faunus {
       Average<double> expu;
 
       void _sample() override {
-        std::cout << "It works" << std::endl;
-//        auto rins = RandomInserter<Tspace::MoleculeData>();
-//        rins.dir = Point(1, 1, 0); // todo: take this from json input
-//        rins.checkOverlap = false;
-//        Tspace::MoleculeData moleculeData;
-//        for (int i = 0; i < 100; ++i) { // todo: (take `100` from json input)
-//          auto pin = spc->molecule.getRandomConformation();
-//          pin = rins(spc, pin, moleculeData);
-//          auto u = pot->v2v(pin, spc->p); // energy between "ghost molecule" and system in kT
-//          expu += exp(-u); // widom average
-//        }
+        auto rins = RandomInserter<typename Tspace::MoleculeMap<typename Tspace::ParticleVector>>();
+        rins.dir = Point(1, 1, 0); // todo: take this from json input
+        rins.checkOverlap = false;
+        for (int i = 0; i < 100; ++i) { // todo: (take `100` from json input)
+          auto pin = (spc->molecule).getRandomConformation();
+          pin = rins(spc, pin, spc->molecule);
+          auto u = pot->v2v(pin, spc->p); // energy between "ghost molecule" and system in kT
+          expu += exp(-u); // widom average
+        }
       }
 
       inline string _info() override {
