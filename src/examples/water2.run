@@ -7,7 +7,7 @@
 echo '{
   "system" : {
     "cuboid"   : { "len" : 100.0 },
-    "mcloop"   : { "macro":10, "micro":50000 },
+    "mcloop"   : { "macro":2, "micro":10 },
     "unittest" : { "testfile":"water2.test", "stable":false }
   },
 
@@ -29,7 +29,8 @@ echo '{
   },
 
     "analysis" : {
-      "virtualvolume" : { "nstep":5, "dV":0.2 }
+      "virtualvolume" : { "nstep":5, "dV":0.2 },
+      "widommolecule" : {"whatever": true}
       },
 
   "moves" : {

@@ -2154,6 +2154,48 @@ namespace Faunus {
           }
       };
 
+
+    template<typename Tspace>
+    class WidomMolecule : public AnalysisBase {
+    private:
+      typedef Energy::Energybase<Tspace> Tenergy;
+      Tspace *spc;
+      Energy::Energybase<Tspace> *pot;
+
+    public:
+      Average<double> expu;
+
+      void _sample() override {
+        std::cout << "It works" << std::endl;
+//        auto rins = RandomInserter<Tspace::MoleculeData>();
+//        rins.dir = Point(1, 1, 0); // todo: take this from json input
+//        rins.checkOverlap = false;
+//        Tspace::MoleculeData moleculeData;
+//        for (int i = 0; i < 100; ++i) { // todo: (take `100` from json input)
+//          auto pin = spc->molecule.getRandomConformation();
+//          pin = rins(spc, pin, moleculeData);
+//          auto u = pot->v2v(pin, spc->p); // energy between "ghost molecule" and system in kT
+//          expu += exp(-u); // widom average
+//        }
+      }
+
+      inline string _info() override {
+        using namespace Faunus::textio;
+        std::ostringstream o;
+        o << "Widom Molecule info() method" << "\n";
+        return o.str();
+      }
+
+      WidomMolecule(Tmjson &json, Tenergy &pot, Tspace &spc) :
+          spc(&spc), pot(&pot), AnalysisBase(json["analysis"], "whatever") {
+        // constructor was necessary, because the name must be set.
+        name = "Widom Molecule";
+      }
+    };
+
+
+
+
     /**
      * @brief Class for accumulating analysis classes
      *
@@ -2167,6 +2209,8 @@ namespace Faunus {
      * `virial`          |  `Analysis::VirialPressure`
      * `virtualvolume`   |  `Analysis::VirtualVolumeMove`
      * `chargemultipole` |  `Analysis::ChargeMultipole`
+     * `cyldensity`      |  `Analysis::CylindricalDensity`
+     * `widommolecule`  |  `Analysys::WidomMolecule`
      */
     class CombinedAnalysis : public AnalysisBase {
       private:
@@ -2190,6 +2234,9 @@ namespace Faunus {
                 v.push_back(new CylindricalDensity<Tspace>(j, spc));
               if (i.key() == "chargemultipole")
                 v.push_back(new ChargeMultipole<Tspace>(j, spc));
+              if (i.key() == "widommolecule") {
+                v.push_back(new WidomMolecule<Tspace>(j, pot, spc));
+              }
             }
           }
 
