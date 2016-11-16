@@ -2161,6 +2161,11 @@ namespace Faunus {
       typedef Energy::Energybase<Tspace> Tenergy;
       Tspace *spc;
       Energy::Energybase<Tspace> *pot;
+      int ninsert;
+      string molecule;
+      Point dir;
+      int molid;
+      int nstep;
 
     public:
       Average<double> expu;
@@ -2168,11 +2173,11 @@ namespace Faunus {
       void _sample() override {
         typedef MoleculeData<typename Tspace::ParticleVector> TMoleculeData;
         auto rins = RandomInserter<TMoleculeData>();
-        rins.dir = {1,1,0}; // todo: take this from json input
+        rins.dir = dir;
         rins.checkOverlap = false;
-        for (int i = 0; i < 100; ++i) { // todo: (take `100` from json input)
-          int molid = 0; // the molecule id you want to insert. read from json input
-          //auto pin = spc->molecule[molid].getRandomConformation();
+        cout << "trying to insert " << spc->molecule[molid].name << "\n";
+        // todo: do something with the ninsert value
+        for (int i = 0; i < nstep; ++i) {
           auto pin = rins(spc->geo, spc->p, spc->molecule[molid]); // ('spc->molecule' is a vector of molecules
           double u = pot->v2v(pin, spc->p); // energy between "ghost molecule" and system in kT
           expu += exp(-u); // widom average
@@ -2187,9 +2192,23 @@ namespace Faunus {
       }
 
       WidomMolecule(Tmjson &json, Tenergy &pot, Tspace &spc) :
-          spc(&spc), pot(&pot), AnalysisBase(json["analysis"], "whatever") {
+          spc(&spc), pot(&pot), AnalysisBase(json["analysis"], "widommolecule") {
         // constructor was necessary, because the name must be set.
         name = "Widom Molecule";
+        Tmjson json_analysis = json["analysis"];
+        Tmjson json_widommolecule = json_analysis["widommolecule"];
+        // nstep is also stored on AnalysisBase into the field 'steps', but it is a private field which is not
+        // accessible to this class
+        nstep = json_widommolecule["nstep"];
+        ninsert = json_widommolecule["ninsert"];
+        dir << json_widommolecule["dir"];
+        string molecule = json_widommolecule["molecule"];
+        // look up the id of the molecule that we want to insert
+        for (unsigned long i = 0; i < spc.molecule.size(); ++i) {
+          if (spc.molecule[i].name == molecule) {
+            molid = (int) i;
+          }
+        }
       }
     };
 
