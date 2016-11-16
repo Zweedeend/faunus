@@ -2166,7 +2166,7 @@ namespace Faunus {
       Average<double> expu;
 
       void _sample() override {
-        typedef typename decltype(spc->molecule)::value_type TMoleculeData;
+        typedef MoleculeData<typename Tspace::ParticleVector> TMoleculeData;
         auto rins = RandomInserter<TMoleculeData>();
         rins.dir = {1,1,0}; // todo: take this from json input
         rins.checkOverlap = false;
