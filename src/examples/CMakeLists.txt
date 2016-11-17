@@ -84,14 +84,14 @@ set_target_properties(example_bulk_coulomb PROPERTIES COMPILE_DEFINITIONS "COULO
 fau_example(example_bulk_dh "./" bulk.cpp)
 set_target_properties(example_bulk_dh PROPERTIES OUTPUT_NAME "bulk_dh" EXCLUDE_FROM_ALL TRUE)
 set_target_properties(example_bulk_dh PROPERTIES COMPILE_DEFINITIONS "DEBYEHUCKEL")
-#
-#fau_example(example_water2 "./" water2.cpp)
-#set_target_properties(example_water2 PROPERTIES OUTPUT_NAME "water2")
-#add_test( example_water2 ${CMAKE_CURRENT_SOURCE_DIR}/water2.run )
-#
-#fau_example(example_water2_ewald "./" water2.cpp)
-#set_target_properties(example_water2_ewald PROPERTIES
-#  OUTPUT_NAME "water2" COMPILE_DEFINITIONS "EWALD" EXCLUDE_FROM_ALL TRUE)
+
+fau_example(example_water2 "./" water2.cpp)
+set_target_properties(example_water2 PROPERTIES OUTPUT_NAME "water2")
+add_test( example_water2 ${CMAKE_CURRENT_SOURCE_DIR}/water2.run )
+
+fau_example(example_water2_ewald "./" water2.cpp)
+set_target_properties(example_water2_ewald PROPERTIES
+  OUTPUT_NAME "water2" COMPILE_DEFINITIONS "EWALD" EXCLUDE_FROM_ALL TRUE)
 
 fau_example(example_cigarsenergy "./" cigarsenergy.cpp)
 set_target_properties(example_cigarsenergy PROPERTIES OUTPUT_NAME "cigarsenergy" EXCLUDE_FROM_ALL FALSE)
