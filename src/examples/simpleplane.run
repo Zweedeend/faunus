@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # source_tests_dir="`dirname $0`"
-# cp -f $source_tests_dir/water2.test . 2> /dev/null
-# cp -f $source_tests_dir/water2.state state 2> /dev/null
+# cp -f $source_tests_dir/simpleplane.test . 2> /dev/null
+# cp -f $source_tests_dir/simpleplane.state state 2> /dev/null
 
 echo '{
   "system" : {
     "cuboid"   : { "len" : 100.0 },
     "mcloop"   : { "macro":20, "micro":100 },
-    "unittest" : { "testfile":"water2.test", "stable":false }
+    "unittest" : { "testfile":"simpleplane.test", "stable":false }
   },
 
   "energy" : {
@@ -25,7 +25,7 @@ echo '{
   },
 
   "moleculelist" : {
-    "water" : { "structure":"water2.aam", "Ninit":10, "insdir":"1 1 0" }
+    "water" : { "structure":"simpleplane.aam", "Ninit":10, "insdir":"1 1 0" }
   },
 
     "analysis" : {
@@ -38,15 +38,15 @@ echo '{
         "water" : { "dp":20, "dprot":0.5, "dir":"1 1 0", "permol":true }
      }
   }
-}' > water2.json
+}' > simpleplane.json
 
 # remove isobaric, that makes changes in volume
 
 echo "1
 OW    1    2.30    6.28    1.13 0  1  2
-" > water2.aam
+" > simpleplane.aam
 
-exe=./water2
+exe=./simpleplane
 if [ -x $exe ]; then
  $exe
  rc=$?
