@@ -2185,11 +2185,18 @@ namespace Faunus {
       }
 
       inline string _info() override {
+
         using namespace Faunus::textio;
         std::ostringstream o;
-        o << "Widom Molecule info() method" << "\n";
+        char w = 30;
+        if (cnt > 0) {
+          o << pad(SUB, w, "Perturbation directions") << dir.transpose() << "\n"
+            << pad(SUB, w, "Inserted molecule") << molecule << "\n"
+            << pad(SUB, w, "Excess chemical potential") << expu.avg() << kT << "\n";
+        }
         return o.str();
       }
+
 
       WidomMolecule(Tmjson &json, Tenergy &pot, Tspace &spc) :
           spc(&spc), pot(&pot), AnalysisBase(json["analysis"], "widommolecule") {
@@ -2204,11 +2211,17 @@ namespace Faunus {
         dir << json_widommolecule["dir"];
         string molecule = json_widommolecule["molecule"];
         // look up the id of the molecule that we want to insert
+        molid = -1;
         for (unsigned long i = 0; i < spc.molecule.size(); ++i) {
           if (spc.molecule[i].name == molecule) {
             molid = (int) i;
+            break;
           }
         }
+        if (molid == -1) {
+          throw std::runtime_error("molecule " + molecule + " specified in 'widommolecule' does not exist");
+        }
+
       }
     };
 
