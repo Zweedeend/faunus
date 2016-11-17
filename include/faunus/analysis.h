@@ -2165,7 +2165,6 @@ namespace Faunus {
       string molecule;
       Point dir;
       int molid;
-      int nstep;
 
     public:
       Average<double> expu;
@@ -2175,9 +2174,7 @@ namespace Faunus {
         auto rins = RandomInserter<TMoleculeData>();
         rins.dir = dir;
         rins.checkOverlap = false;
-        cout << "trying to insert " << spc->molecule[molid].name << "\n";
-        // todo: do something with the ninsert value
-        for (int i = 0; i < nstep; ++i) {
+        for (int i = 0; i < ninsert; ++i) {
           auto pin = rins(spc->geo, spc->p, spc->molecule[molid]); // ('spc->molecule' is a vector of molecules
           double u = pot->v2v(pin, spc->p); // energy between "ghost molecule" and system in kT
           expu += exp(-u); // widom average
@@ -2200,13 +2197,9 @@ namespace Faunus {
 
       WidomMolecule(Tmjson &json, Tenergy &pot, Tspace &spc) :
           spc(&spc), pot(&pot), AnalysisBase(json["analysis"], "widommolecule") {
-        // constructor was necessary, because the name must be set.
         name = "Widom Molecule";
         Tmjson json_analysis = json["analysis"];
         Tmjson json_widommolecule = json_analysis["widommolecule"];
-        // nstep is also stored on AnalysisBase into the field 'steps', but it is a private field which is not
-        // accessible to this class
-        nstep = json_widommolecule["nstep"];
         ninsert = json_widommolecule["ninsert"];
         dir << json_widommolecule["dir"];
         string molecule = json_widommolecule["molecule"];
