@@ -2172,15 +2172,11 @@ namespace Faunus {
         return o.str();
       }
 
-
-      WidomMolecule(Tmjson &json, Tenergy &pot, Tspace &spc) :
-          spc(&spc), pot(&pot), AnalysisBase(json["analysis"], "widommolecule") {
+      WidomMolecule( const Tmjson &j, Tenergy &pot, Tspace &spc ) : spc(&spc), pot(&pot), AnalysisBase( j ) {
         name = "Widom Molecule";
-        Tmjson json_analysis = json["analysis"];
-        Tmjson json_widommolecule = json_analysis["widommolecule"];
-        ninsert = json_widommolecule["ninsert"];
-        dir << json_widommolecule["dir"];
-        string molecule = json_widommolecule["molecule"];
+        ninsert = j["ninsert"];
+        dir << j["dir"];  // magic!
+        string molecule = j["molecule"];
         // look up the id of the molecule that we want to insert
         molid = -1;
         for (unsigned long i = 0; i < spc.molecule.size(); ++i) {
