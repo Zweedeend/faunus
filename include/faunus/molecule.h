@@ -24,9 +24,9 @@ namespace Faunus {
     struct RandomInserter {
       typedef typename TMoleculeData::TParticleVector Tpvec;
       string name;
-      Point dir;         //!< Scalars for random mass center position. Default (1,1,1)  // todo: change this to (1, 1, 0)
+      Point dir;         //!< Scalars for random mass center position. Default (1,1,1)
       Point offset;      //!< Added to random position. Default (0,0,0)
-      bool checkOverlap; //!< Set to true to enable container overlap check  // todo: set this to false
+      bool checkOverlap; //!< Set to true to enable container overlap check
       bool rotate;       //!< Set to true to randomly rotate molecule when inserted. Default: true
       bool keeppos;      //!< Set to true to keep original positions (default: false)
       int maxtrials;     //!< Maximum number of overlap checks if `checkOverlap==true`
@@ -201,13 +201,22 @@ namespace Faunus {
          */
         void setInserter( const TinserterFunc &ifunc ) { inserterFunctor = ifunc; };
 
-        /** @brief Get a random conformation */
-        Tpvec getRandomConformation() {  // todo: use this function to get a molecule
+        /**
+         * @brief Get a random conformation
+         *
+         * This will return the raw coordinates of a random conformation
+         * as loaded from a directory file. The propability of a certain
+         * conformation is dictated by the weight which, by default,
+         * is set to unity. Specify a custom distribution using the
+         * `weight` keyword.
+         */
+        Tpvec getRandomConformation()
+        {
           if ( conformations.empty() )
             throw std::runtime_error("No configurations for molecule '" + name +
                 "'. Perhaps you forgot to specity the 'atomic' keyword?");
 
-          assert( size_t(confDist.max()) == conformations.size()-1 );
+          assert( size_t( confDist.max()) == conformations.size()-1 );
           assert( atoms.size() == conformations.front().size() );
 
           return conformations[ confDist(slump.eng) ];
@@ -222,7 +231,7 @@ namespace Faunus {
          * no container overlap using the `RandomInserter` class. This behavior can
          * be changed by specifying another inserter using `setInserter()`.
          */
-        Tpvec getRandomConformation( // returns a vector of position of a particle that is placed randomly in a box
+        Tpvec getRandomConformation(
             Geometry::Geometrybase &geo,
             const Tpvec &otherparticles=Tpvec() )
         {
@@ -513,7 +522,7 @@ namespace Faunus {
     class MoleculeCombination : public PropertyBase {
       public:
 
-        MoleculeCombination( Tmjson::iterator &comb ) {
+        MoleculeCombination( const Tmjson::iterator &comb ) {
           name = comb.key();
           probability = comb.value()["prob"] | 1.0;
           string mollist = comb.value()["molecules"] | string();
@@ -533,6 +542,8 @@ namespace Faunus {
    *
    * When examining a JSON file, individual entries must be placed
    * in a section called `moleculecombinations`.
+   *
+   * @todo Add warning if `moleculecombinations` is not found
    */
   template<class Tpvec, class base=PropertyVector< MoleculeCombination<Tpvec> >>
     class MoleculeCombinationMap : public base {
@@ -561,7 +572,7 @@ namespace Faunus {
           base::jsonsection = "moleculecombinations";
         }
 
-        bool include( Tmjson &j ) override {
+        bool include( const Tmjson &j ) override {
           bool r = base::include( j );
           update();
           return r;
