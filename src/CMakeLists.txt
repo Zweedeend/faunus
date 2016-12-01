@@ -160,3 +160,6 @@ endfunction( fau_example )
 #add_subdirectory(playground EXCLUDE_FROM_ALL)
 add_subdirectory(examples)
 
+if (EXISTS ${MYPLAYGROUND})
+  add_subdirectory(${MYPLAYGROUND} ${MYPLAYGROUND})
+endif()
