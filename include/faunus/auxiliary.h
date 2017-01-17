@@ -228,6 +228,21 @@ namespace Faunus
       return y;
   }
 
+  template<class Tint=std::int64_t>
+  double invsqrtQuake( double number )
+  {
+      static_assert(sizeof(Tint) == 8, "Integer size must be 8 bytes for quake invsqrt.");
+      double y = number;
+      double x2 = y * 0.5;
+      Tint i = *(Tint *) &y;
+      // The magic number is for doubles is from https://cs.uwaterloo.ca/~m32rober/rsqrt.pdf
+      i = 0x5fe6eb50c7b537a9 - (i >> 1);
+      y = *(double *) &i;
+      y = y * (1.5 - (x2 * y * y));   // 1st iteration
+      //      y  = y * ( 1.5F - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+      return y;
+  }
+
   /**
    * @brief n'th integer power of float
    *
